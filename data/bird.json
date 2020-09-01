@@ -3,7 +3,7 @@
     "Here's a bird for you !"
   ],
   "images": [
-    "https://upload.wikimedia.org/wikipedia/commons/2/2e/Bar-throated_Siva_Fambong_Lho_WLS_March_2014.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/8/86/Eurasian_blue_tit_Lancashire.jpg"
+    {"url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Bar-throated_Siva_Fambong_Lho_WLS_March_2014.jpg"},
+    {"url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Eurasian_blue_tit_Lancashire.jpg"}
   ]
 }
