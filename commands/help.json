@@ -1,0 +1,13 @@
+{
+  "general": {
+    "title": "Help",
+    "description": "Welcome to the help file!",
+    "fields": [
+      {
+        "value": "Display this message.",
+        "name": "`!help`",
+        "inline": true
+      }
+    ]
+  }
+}

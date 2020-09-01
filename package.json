@@ -1,0 +1,32 @@
+{
+  "name": "fallout-bot",
+  "version": "1.0.0",
+  "description": "a dice bot for a fallout ttrpg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Bwuljqh",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bwuljqh/fallout-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bwuljqh/fallout-bot/issues"
+  },
+  "homepage": "https://github.com/Bwuljqh/fallout-bot#readme",
+  "dependencies": {
+    "async-limiter": "1.0.1",
+    "discord.js": "12.*",
+    "dotenv": "8.2.0",
+    "googleapis": "^39.2.0",
+    "long": "4.0.0",
+    "prism-media": "0.0.3",
+    "snekfetch": "3.6.4",
+    "tweetnacl": "1.0.2",
+    "ws": "6.2.1"
+  }
+}
