@@ -1,13 +1,16 @@
 const imageModule = require('./imagecommands');
+const mosaicModule = require('./mosaic');
 
 module.exports = {
   Help: require('./help.js')
 };
 
 if (process.env.USE_MOSAIC_MODULE === 'true') {
-  module.exports = Object.assign(module.exports, {Mosaic: require('./mosaic')});
+  console.log('Using Mosaic Module');
+  module.exports = Object.assign(module.exports, mosaicModule);
 }
 
 if (process.env.USE_IMAGE_MODULE === 'true') {
+  console.log('Using Image Module');
   module.exports = Object.assign(module.exports, imageModule);
 }

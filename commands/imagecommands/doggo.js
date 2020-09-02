@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['inu'],
   description: 'Woof doggo',
   execute(msg, args) {
-    var doggoData = require("../../data/doggo.json");
-    genericImageCommand.execute(msg, doggoData);
+    var data = require("../../data/doggo.json");
+    genericImageCommand.execute(msg, data);
   }
 }
