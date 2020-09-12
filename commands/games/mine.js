@@ -1,11 +1,13 @@
 const Minesweeper = require('discord.js-minesweeper');
 
 module.exports = {
-    name: 'µmine',
-    description: 'Minesweeper generator',
+    name: 'minesweeper',
+    aliases: ['µmine', 'ms'],
+    description: 'Simple minesweeper game.\nThere are 3 difficulty levels.',
+    usage: `<difficulty>`,
     execute(msg, args) {
         //let data = require("../../data/mine.json");
-        console.log(args);
+        // console.log(args);
         let difficulty = args[0];
         switch (difficulty) {
             case "0":
@@ -64,5 +66,4 @@ module.exports = {
             default: msg.channel.send("Invalid arguments");
         }
     }
-}
-
+};
