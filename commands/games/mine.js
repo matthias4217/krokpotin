@@ -4,8 +4,8 @@ module.exports = {
     name: 'minesweeper',
     aliases: ['µmine', 'ms'],
     description: 'Simple minesweeper game.\nThere are 3 difficulty levels (0, 1, 2 and 3). Level 3 parameters can be ' +
-    'customized further.',
-    usage: `<difficulty>`,
+    'customized further :.',
+    usage: `<difficulty> [optional with difficulty 3:] <rows> <columns> <mines>`,
     execute(msg, args) {
         //let data = require("../../data/mine.json");
         // console.log(args);
@@ -57,10 +57,11 @@ module.exports = {
                             await msg.channel.send(minesweeperc.start())
                         } catch (err) {
                             msg.channel.send("Discord can't handle that many characters, try something like 12*12 with 50 mines");
-                            console.log('Too many characters') // will get executed
+                            // console.log('Too many characters') // will get executed
                         }
                     })()
                 }
+                break;
             // case "emote":
             //     emote = args[1];
             //     break;
