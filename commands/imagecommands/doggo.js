@@ -1,11 +1,12 @@
-const genericImageCommand = require('./generic')
+const genericImageCommand = require('./generic');
 
 module.exports = {
   name: 'doggo',
   aliases: ['inu'],
-  description: 'Woof doggo',
+  description: 'Send images of various dogs',
+  usage: genericImageCommand.usage,
   execute(msg, args) {
-    var data = require("../../data/doggo.json");
+    const data = require("../../data/doggo.json");
     genericImageCommand.execute(msg, data);
   }
-}
+};

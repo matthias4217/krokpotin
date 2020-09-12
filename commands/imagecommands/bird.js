@@ -3,7 +3,8 @@ const genericImageCommand = require('./generic');
 module.exports = {
   name: 'bird',
   aliases: ['birb', 'birds', 'birbs'],
-  description: 'Cute birds',
+  description: 'Send images of cute birds',
+  usage: genericImageCommand.usage,
   execute(msg, args) {
 
     // there will be problems if the file doesn't exist, but not a priority for now

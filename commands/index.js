@@ -14,3 +14,10 @@ if (process.env.USE_IMAGE_MODULE === 'true') {
   console.log('Using Image Module');
   module.exports = Object.assign(module.exports, imageModule);
 }
+
+if (process.env.USE_MANAGEMENT_MODULE === 'true') {
+    console.log('Using Management Module');
+    const managementModule = require('./management');
+    module.exports = Object.assign(module.exports, managementModule);
+}
+
