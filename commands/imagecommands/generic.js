@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const DEFAULT_COLOR = process.env.DEFAULT_COLOR;
 
 module.exports = {
+  usage: `[optional] <users>`,
   execute(msg, data) {
     const image = data.images[Math.floor(Math.random()*data.images.length)];
     let desc = data.titles[Math.floor(Math.random()*data.titles.length)];

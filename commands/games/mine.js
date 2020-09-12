@@ -3,7 +3,8 @@ const Minesweeper = require('discord.js-minesweeper');
 module.exports = {
     name: 'minesweeper',
     aliases: ['µmine', 'ms'],
-    description: 'Simple minesweeper game.\nThere are 3 difficulty levels.',
+    description: 'Simple minesweeper game.\nThere are 3 difficulty levels (0, 1, 2 and 3). Level 3 parameters can be ' +
+    'customized further.',
     usage: `<difficulty>`,
     execute(msg, args) {
         //let data = require("../../data/mine.json");

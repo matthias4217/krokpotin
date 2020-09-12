@@ -4,6 +4,16 @@
   ],
   "images": [
     {"url":  "https://upload.wikimedia.org/wikipedia/commons/3/34/Labrador_on_Quantock_%282175262184%29.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Labrador_on_Quantock_(2175262184).jpg"}
+      "source": "https://commons.wikimedia.org/wiki/File:Labrador_on_Quantock_(2175262184).jpg"},
+    {"url": "https://pds.exblog.jp/pds/1/201002/12/90/a0126590_22301391.jpg",
+      "source": "https://kabosu112.exblog.jp/9944144/", "author": "Atsuko Sato"},
+    {"url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Little_dog_and_toy.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_dog_and_toy.jpg", "author": "KarinaHolosko"},
+    {"url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Turkmen_Sheppard_Dog.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Turkmen_Sheppard_Dog.jpg", "author": "Peretz Partensky"},
+    {"url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Bel_Air%2C_Maryland_dog_%28Unsplash%29.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bel_Air,_Maryland_dog_(Unsplash).jpg", "author": "Mike Burke"},
+    {"url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Black_and_white_dog_on_snow.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Black_and_white_dog_on_snow.jpg", "author": "Beercha"}
   ]
 }
