@@ -7,6 +7,7 @@ const DEFAULT_COLOR = process.env.DEFAULT_COLOR;
 
 module.exports = {
     name: 'mosaic',
+    aliases: ['canvas', 'canevas', 'mosaique'],
     description: 'Get a mosaic',
     execute(msg, args) {
         const canvasUrl = process.env.MOSAIC_URL;
