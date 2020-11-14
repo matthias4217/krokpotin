@@ -6,9 +6,10 @@ Bird: require('./bird'),
 	  Dance: require('./dance'),
 	  Doggo : require('./doggo'),
 	  Hug: require('./hug'),
-	  Stoat: require('./stoat'),
+	  Nyan: require('./nyan'),
 	  Pat: require('./pat'),
 	  Pokemon : require('./pokemon'),
 	  Pout: require('./pout'),
-	  Sleepy: require('./sleepy')
+	  Sleepy: require('./sleepy'),
+	  Stoat: require('./stoat')
 };
