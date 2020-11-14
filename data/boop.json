@@ -1,8 +1,9 @@
 {
-  "titles": [
-    "boop"
-  ],
-  "images": [
-    {"url": "https://media.giphy.com/media/1qgIPm9bmOhRjANGGF/giphy.gif"}
-  ]
+	"titles": [
+		"boop"
+	],
+	"images": [
+	{"url": "https://media.giphy.com/media/1qgIPm9bmOhRjANGGF/giphy.gif"},
+	{"url": "https://cdn.discordapp.com/attachments/659014571167711233/769839350727835648/ElG7r8gWAAEr7sE.jpeg"}
+	]
 }

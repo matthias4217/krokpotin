@@ -1,0 +1,16 @@
+{
+	"titles": [
+		"A cute hermine just for you"
+	],
+	"images": [
+	{"url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Mustela_Erminea_head.jpg/793px-Mustela_Erminea_head.jpg",
+		"source": "https://www.flickr.com/photos/66164549@N00/2778719952/", "author": "Keven Law"},
+	{"url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Mustela_erminea_upright.jpg/438px-Mustela_erminea_upright.jpg",
+		"source": "https://digitalmedia.fws.gov/digital/collection/natdiglib/id/6188", "author": "Steve Hillebrand"},
+		{"url": "https://cdn.discordapp.com/attachments/496457321954934784/760132183959666758/dsc_4126-hermine-web.png",
+		"source": "https://www.flickr.com/photos/thierrydacko/3888048658/", "author": "Thierry Dacko"},
+	{"url": "https://cdn.discordapp.com/attachments/496457321954934784/760131933656055848/8a5bc6bee2197db50b75a7e366f884f3.png"},
+	{"url": "https://cdn.discordapp.com/attachments/496457321954934784/760132079907504158/images.png"},
+	{"url": "https://cdn.discordapp.com/attachments/496457321954934784/760132083757875210/hermine-476x2492x.png"}
+	]
+}
