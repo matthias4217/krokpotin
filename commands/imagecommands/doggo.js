@@ -2,7 +2,7 @@ const genericImageCommand = require('./generic');
 
 module.exports = {
   name: 'doggo',
-  aliases: ['inu'],
+  aliases: ['inu', 'dog'],
   description: 'Send images of various dogs',
   usage: genericImageCommand.usage,
   execute(msg, args) {

@@ -3,5 +3,6 @@ module.exports = {
   Boop: require('./boop'),
   Cat: require('./cat'),
   Cuddle: require('./cuddle'),
-  Doggo : require('./doggo')
+  Doggo : require('./doggo'),
+  Pokemon : require('./pokemon')
 };
