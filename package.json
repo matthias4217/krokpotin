@@ -1,23 +1,23 @@
 {
-  "name": "fallout-bot",
-  "version": "1.0.0",
-  "description": "a dice bot for a fallout ttrpg",
+  "name": "Krokpotin",
+  "version": "0.1-dev",
+  "description": "General discord bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "Bwuljqh",
+  "author": "Bwuljqh, Inferture and Matthias4217",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bwuljqh/fallout-bot.git"
+    "url": "git+https://github.com/matthias4217/krokpotin.git"
   },
   "bugs": {
-    "url": "https://github.com/Bwuljqh/fallout-bot/issues"
+    "url": "https://github.com/matthias4217/krokpotin/issues"
   },
-  "homepage": "https://github.com/Bwuljqh/fallout-bot#readme",
+  "homepage": "https://github.com/matthias4217/krokpotin#readme",
   "dependencies": {
     "async-limiter": "1.0.1",
     "canvas": "^2.6.1",
