@@ -2,6 +2,11 @@
 
 ## Installation :
 
+### Dependencies
+
+Node 12 or later ; corresponding version of npm
+
+
 ### Setup
 
 ```bash
