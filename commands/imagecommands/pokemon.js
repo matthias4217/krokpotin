@@ -1,12 +1,18 @@
 const genericImageCommand = require('./generic');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-  name: 'pokemon',
-  aliases: ['randompokemon'],
-  description: 'Chooses a random gif of a pokemon',
-  usage: genericImageCommand.usage,
-  execute(msg, args) {
+  data: new SlashCommandBuilder()
+      .setName('pokemon')
+      .setDescription('Chooses a random gif of a pokemon')
+      .addUserOption( user =>
+          user.setName('user')
+              .setDescription('Tag Whoever you want!')
+              .setRequired(false)
+      ),
+  async execute(client, interaction) {
+    // there will be problems if the file doesn't exist, but not a priority for now
     const data = require("../../data/pokemon.json");
-    genericImageCommand.execute(msg, data);
+    await genericImageCommand.execute(interaction,client, data);
   }
 };

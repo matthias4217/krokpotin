@@ -1,71 +1,123 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const Minesweeper = require('discord.js-minesweeper');
 
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('minesweeper')
+        .setDescription('Simple minesweeper game.')
+        .addSubcommand( fixed =>
+        fixed.setName('fixed')
+            .setDescription('Play with some predetermined size')
+            .addStringOption( difficulty =>
+                difficulty
+                .setName('difficulty')
+                .setDescription('The difficulty you want to play in')
+                .setRequired(true)
+                .addChoices(
+                    [[
+                        'Beginner',
+                        'beginner'
+                    ],
+                    [
+                        'Intermediate',
+                        'intermediate'
+                    ],
+                    [
+                        'Expert',
+                        'expert'
+                    ]]
+                )
+            )
+        )
+        .addSubcommand( custom =>
+        custom.setName('custom')
+        .setDescription('Specify a custom size, make sure it\'s less than 2000 character')
+            .addIntegerOption( x =>
+            x.setName('x')
+                .setDescription('x size')
+                .setRequired(true))
+            .addIntegerOption( y =>
+                y.setName('y')
+                    .setDescription('y size')
+                    .setRequired(true)
+            ).addIntegerOption(mines =>
+        mines.setName('mines')
+            .setDescription('The number if mines you want')
+            .setRequired(true)
+        )),
+
+    /*
     name: 'minesweeper',
     aliases: ['µmine', 'ms'],
     description: 'Simple minesweeper game.\nThere are 3 difficulty levels (0, 1, 2 and 3). Level 3 parameters can be ' +
     'customized further :.',
-    usage: `<difficulty> [optional with difficulty 3:] <rows> <columns> <mines>`,
-    execute(msg, args) {
-        //let data = require("../../data/mine.json");
-        // console.log(args);
-        let difficulty = args[0];
-        switch (difficulty) {
-            case "0":
-                const minesweeperb = new Minesweeper({
-                    rows: 5,
-                    columns: 5,
-                    mines: 6,
-                    revealFirstCell: true,
-                    // emote: data["emoji"],
-                });
-                msg.channel.send(minesweeperb.start());
-                break;
-            case "1":
-                const minesweeperi = new Minesweeper({
-                    rows: 9,
-                    columns: 9,
-                    mines: 10,
-                    // emote: data["emoji"],
-                });
-                msg.channel.send(minesweeperi.start());
-                break;
-            case "2":
-                const minesweeperd = new Minesweeper({
-                    rows: 12,
-                    columns: 12,
-                    mines: 50,
-                    // emote: data["emoji"],
-                });
-                msg.channel.send(minesweeperd.start());
-                break;
-            case "3":
-                if (typeof args[1] === 'undefined' || typeof args[2] === 'undefined' || typeof args[3] === 'undefined') {
-                    msg.channel.send("Invalid arguments");
-                } else if (args[1] * args[2] <= args[3]) {
-                    msg.channel.send("Invalid number of mines");
+    usage: `<difficulty> [optional with difficulty 3:] <rows> <columns> <mines>`,*/
+    async execute(client, interaction) {
+
+        let command = interaction.options.getSubcommand();
+
+        switch (command) {
+            case 'custom':{
+                const x  = interaction.options.getInteger('x');
+                const y = interaction.options.getInteger('y');
+                const mines =  interaction.options.getInteger('mines');
+                 if (x * y <= mines) {
+                     return interaction.reply("Invalid number of mines");
                 } else {
                     const minesweeperc = new Minesweeper({
-                        rows: parseInt(args[1]),
-                        columns: parseInt(args[2]),
-                        mines: parseInt(args[3]),
+                        rows: x,
+                        columns: y,
+                        mines: mines,
                         revealFirstCell: true,
+                        zeroFirstCell: true,
                         // emote: data["emoji"],
                     });
-                    ;(async function () {
+                    ;await (async function () {
                         try {
-                            await msg.channel.send(minesweeperc.start())
+                            await interaction.reply(minesweeperc.start())
                         } catch (err) {
-                            msg.channel.send("Discord can't handle that many characters, try something like 12*12 with 50 mines");
+                            return interaction.reply("Discord can't handle that many characters, try something like 10*10 with 35 mines or lower the number of mines");
                             // console.log('Too many characters') // will get executed
                         }
                     })()
-                }
-                break;
-            // case "emote":
-            //     emote = args[1];
-            //     break;
-            default: msg.channel.send("Invalid arguments");
+                } break;
+            }
+            case 'fixed':{
+                let difficulty = interaction.options.getString('difficulty');
+                switch (difficulty) {
+                    case "beginner":
+                        const minesweeperb = new Minesweeper({
+                            rows: 5,
+                            columns: 5,
+                            mines: 6,
+                            revealFirstCell: true,
+                            zeroFirstCell: true,
+                            // emote: data["emoji"],
+                        });
+                        return interaction.reply(minesweeperb.start())
+                    case "intermediate":
+                        const minesweeperi = new Minesweeper({
+                            rows: 9,
+                            columns: 9,
+                            mines: 10,
+                            revealFirstCell: true,
+                            zeroFirstCell: true,
+                            // emote: data["emoji"],
+                        });
+                        return interaction.reply(minesweeperi.start())
+                    case "expert":
+                        const minesweeperd = new Minesweeper({
+                            rows: 9,
+                            columns: 10,
+                            mines: 35,
+                            revealFirstCell: true,
+                            zeroFirstCell: true,
+                            // emote: data["emoji"],
+                        });
+                        return interaction.reply(minesweeperd.start());
+                    default: return interaction.reply("Invalid arguments");
+                    }
+            }
         }
     }
 };

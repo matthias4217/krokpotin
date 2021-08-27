@@ -1,15 +1,18 @@
 const genericImageCommand = require('./generic');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-name: 'pout',
-	  aliases: [],
-	  description: 'Pout when you need to',
-	  usage: genericImageCommand.usage,
-	  execute(msg, args) {
-
-		  // there will be problems if the file doesn't exist, but not a priority for now
-		  var data = require("../../data/pout.json");
-
-		  genericImageCommand.execute(msg, data);
-	  }
+	data: new SlashCommandBuilder()
+		.setName('pout')
+		.setDescription('Pout when you need to')
+		.addUserOption( user =>
+			user.setName('user')
+				.setDescription('Tag Whoever you want!')
+				.setRequired(false)
+		),
+	async execute(client, interaction) {
+		// there will be problems if the file doesn't exist, but not a priority for now
+		const data = require("../../data/pout.json");
+		await genericImageCommand.execute(interaction,client, data);
+	}
 };

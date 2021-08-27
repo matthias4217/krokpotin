@@ -4,7 +4,7 @@ const PREFIX = process.env.PREFIX;
 module.exports = {
   name: 'help',
   aliases: ['h'],
-  description: 'Show all of the commands',
+  description: 'Show all of the old_commands',
   usage: `[optional] <command>`,
   execute(msg, args) {
     const embed = new MessageEmbed();

@@ -3,7 +3,7 @@ const {MessageEmbed} = require('discord.js');
 module.exports = {
     name: 'reactionroles',
     aliases: ['rr'],
-    description: 'This commands allow to set',
+    description: 'This old_commands allow to set',
     usage: `<role> <:emoji:> <role> <:emoji:>`,
     execute(msg, args) {
         let embed = new MessageEmbed();

@@ -1,15 +1,17 @@
-const {MessageEmbed} = require('discord.js');
+const {MessageEmbed, MessageAttachment} = require('discord.js');
 const {createCanvas, createImageData} = require('canvas');
 const fs = require('fs');
 const https = require('https');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
 
 const DEFAULT_COLOR = process.env.DEFAULT_COLOR;
 
 module.exports = {
-    name: 'mosaic',
-    aliases: ['canvas', 'canevas', 'mosaique'],
-    description: 'Get a mosaic',
-    execute(msg, args) {
+data: new SlashCommandBuilder()
+    .setName('mosaic')
+    .setDescription('Get a mosaic'),
+    async execute(interaction, client) {
         const canvasUrl = process.env.MOSAIC_URL;
         let desc = ``;
 
@@ -53,11 +55,11 @@ module.exports = {
 
                 const buffer = canvas.toBuffer('image/png')
                 fs.writeFileSync('./mosaic.png', buffer)
-
+                const file = new MessageAttachment('mosaic.png');
                 const message = new MessageEmbed().setDescription(desc).setColor(DEFAULT_COLOR)
                     .setFooter(`https://${canvasUrl}`)
-                    .attachFiles('mosaic.png').setImage('attachment://mosaic.png');
-                msg.channel.send(message);
+                    .setImage('attachment://mosaic.png');
+                return interaction.reply(message);
             });
         }).on('error', error => {
             console.error(error);

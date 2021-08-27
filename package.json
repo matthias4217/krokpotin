@@ -19,11 +19,17 @@
   },
   "homepage": "https://github.com/matthias4217/krokpotin#readme",
   "dependencies": {
+    "@discordjs/builders": "^0.6.0",
     "async-limiter": "1.0.1",
     "canvas": "^2.6.1",
-    "discord.js": "12.*",
+    "discord.js": "13.*",
     "discord.js-minesweeper": "^1.0.6",
     "dotenv": "8.2.0",
     "ws": "6.2.1"
+  },
+  "devDependencies": {
+    "@discordjs/rest": "0.1.0-canary.0",
+    "discord-api-types": "^0.22.0",
+    "node-dir": "^0.1.17"
   }
 }
