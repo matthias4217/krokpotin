@@ -12,7 +12,31 @@ const commands = [];
 
 let dir = './commands';
 
-let files = node_dir.files(dir, {sync:true}).filter(file => file.endsWith('.js'));
+
+const image = [process.env.USE_IMAGE_MODULE, 'imagecommands'];
+const management = [process.env.USE_MANAGEMENT_MODULE, 'management'];
+const games = [process.env.USE_GAMES_MODULE, 'games'];
+const mosaic = [process.env.USE_MOSAIC_MODULE, 'mosaic'];
+
+let dir_list= [];
+const directories = [image, management,games,mosaic];
+for ( let directory in directories) {
+    if (directories[directory][0] === 'true') dir_list.push(directories[directory][1]);
+}
+
+let files = node_dir.files('./commands', {sync:true})
+    .filter(file => file.endsWith('.js'))
+    .filter(file => {
+            let temp = file.split('\\');
+            for ( let dir in dir_list) {
+                if (temp.includes(dir_list[dir])) return true;
+            } return false;
+        }
+    );
+
+
+
+
 
 console.log(files);
 
@@ -20,7 +44,7 @@ for (const file of files) {
     const command = require(`./${file}`);
     if (!(command.data === undefined)){
     commands.push(command.data.toJSON());
-    console.log("command added");
+    console.log("command added: " + command.data.name );
     }
 }
 
