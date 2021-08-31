@@ -1,0 +1,27 @@
+{
+  "guildId": {
+    "password": "temp",
+    "reactMessages": {
+      "messageId": {
+        "channel": "channelId",
+        "roles": [
+          {
+            "role": "roleId1",
+            "emoji": "emoji1",
+            "order": 0
+          },
+          {
+            "role": "roleId2",
+            "emoji": "emoji2",
+            "order": 0
+          },
+          {
+            "role": "roleId3",
+            "emoji": "emoji3",
+            "order": 0
+          }
+        ]
+      }
+    }
+  }
+}
