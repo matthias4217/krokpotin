@@ -9,15 +9,14 @@ module.exports = {
 
             create.setName('create_message')
                 .setDescription('Create a empty message for people to self-assign roles')
-
                 .addChannelOption(channel =>
                     channel.setName('channel')
                         .setDescription('The channel you want the message to be')
                         .setRequired(true))
         ).addSubcommand(add =>
+
             add.setName('add_role')
                 .setDescription('add a role to react message')
-
                 .addStringOption(id =>
                     id.setName('id')
                         .setDescription('The id of the message you want to add a role to')
@@ -36,6 +35,7 @@ module.exports = {
                     order.setName('order')
                         .setDescription('The place you want the role to be. otherwise the roles will be displayed in order'))
         ).addSubcommand(remove =>
+
             remove.setName('remove_role')
                 .setDescription('Remove a role from a react message')
 
@@ -49,6 +49,7 @@ module.exports = {
                         .setDescription('The role to delete')
                         .setRequired(true))
         ).addSubcommand(deleted =>
+
             deleted.setName('delete_message')
                 .setDescription('Delete a react message')
 
@@ -91,14 +92,20 @@ module.exports = {
         let dataManagement = require('../../data/dataManagement.json');
         console.log(command);
 
-
+        //The interactions are for administrators only
+        //TODO: make so the permission can be edited and maybe assigned to roles, this would need to check the guild first
         if (interaction.member.permissions.has('ADMINISTRATOR')) {
 
+            //function that returns a boolean indicating if dataManagement.json has a property guild.id
             let guildIdIsSet = checkGuildId();
+
+            //messageId = null if not set
             const messageId = interaction.options.getString('id');
 
+            //check which command has been called
             switch (command) {
                 case 'create_message':
+                    //if the guild does not exist in the database, we create it
                     if (!guildIdIsSet) {
                         dataManagement[guildId] =
                             {
@@ -109,107 +116,136 @@ module.exports = {
 
                     let channel = interaction.options.getChannel('channel');
 
+                    //send a message to the desired channel
                     const messageSent = await channel.send("This message waits for you to configure it, type `/reactionroles add [role] [emoji]` to add roles");
 
+                    //create the entry in the database
                     dataManagement[guildId]["reactMessages"][messageSent.id] =
                         {
                             "roles": [],
                             "channel": channel.id
                         }
-
+                    //overwrite the files to save the changes
                     fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
                         if (err) {
+                            //delete the message in case of error with the databse
                             messageSent.delete().then(() => console.log('The message has been deleted'));
                             return interaction.reply("An unexpected error happened, blame the dev")
                         } else {
                             console.log('data Updated');
-                            return interaction.reply("The message is now in place in <#" + messageSent.channelId + ">. Set it up using `/reactionsroles add [role] [emoji]`. Its id is `" + messageSent.id + "`")
+                            return interaction.reply("The message is now in place in <#" + messageSent.channelId + ">. Set it up using `/reactionsroles add_role [id] [role] [emoji]`. Its id is `" + messageSent.id + "`")
                         }
                     });
                     break;
+
                 case 'add_role':
+                    //if the guild does not exist in the database this command will not be executed
                     if (guildIdIsSet) {
+                        let roleToAdd = interaction.options.getRole('role');
+
+                        //check if the role the user want to add is @everyone
+                        if (guildId !== roleToAdd.id) {
+
+                            //check if the id provided correspond to a message in the database
+                            if (dataManagement[guildId]["reactMessages"].hasOwnProperty(messageId)) {
 
 
-                        if (dataManagement[guildId]["reactMessages"].hasOwnProperty(messageId)) {
-                            let channelId = dataManagement[guildId]["reactMessages"][messageId]["channel"];
+                                let channelId = dataManagement[guildId]["reactMessages"][messageId]["channel"];
+                                let emoji = interaction.options.getString("emoji");
+                                let roles = dataManagement[guildId]["reactMessages"][messageId]["roles"]
 
-                            let emoji = interaction.options.getString("emoji");
-
-
-                            let roles = dataManagement[guildId]["reactMessages"][messageId]["roles"]
-                            let roleToAdd = interaction.options.getRole('role');
-
-                            for (let role in roles) {
-                                if (roles[role]["role"] === roleToAdd.id) {
-                                    return interaction.reply('The role is already present in the database, please edit or remove it first')
+                                //check if the role provided is already user
+                                for (let role in roles) {
+                                    if (roles[role]["role"] === roleToAdd.id) {
+                                        return interaction.reply('The role is already present in the database, please edit or remove it first')
+                                    }
                                 }
-                            }
 
-                            roles.push({
-                                "role": roleToAdd.id,
-                                "emoji": interaction.options.getString('emoji'),
-                                "order": 0
-                            })
+                                //check if the emoji provided is already used
+                                for (let role in roles) {
+                                    if (roles[role]["emoji"] === emoji) {
+                                        return interaction.reply('The emoji is already used for another role')
+                                    }
+                                }
 
-                            client.channels.cache.get(channelId).messages.fetch(messageId).then(msg => {
-                                //TODO:add a regex to check what is the given emoji :emoji: or <:emoji:123456789123456>
-                                //TODO: Rectification, check if the emoji is part of the server or not
-                                msg.react(emoji).then(rea => {
-                                    let messageFromRea = rea.message;
-                                    messageFromRea.edit(createText(messageId, dataManagement)).then(() => {
-                                        fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
-                                            if (err) {
-                                                return interaction.reply("An unexpected error happened, blame the dev")
-                                            } else {
-                                                console.log('data Updated');
-                                                return interaction.reply("The role " + interaction.options.getRole('role').name + " has been added to the message");
-                                            }
-                                        })
-                                    });
-                                }, err => {
-                                    console.log(err);
-                                    console.log('this emoji does not exist');
-                                    return interaction.reply('This emoji does not exist');
+                                //add the role to dataManagement[guildId]["reactMessages"][messageId]["roles"]
+                                roles.push({
+                                    "role": roleToAdd.id,
+                                    "emoji": interaction.options.getString('emoji'),
+                                    "order": 0
                                 })
-                            }, (error) => {
-                                console.log(error);
-                                return interaction.reply("The message from this id does not exist");
-                            })
+
+                                //fetch the message from the cache of the channel
+                                client.channels.cache.get(channelId).messages.fetch(messageId).then(msg => {
+                                    //TODO:add a regex to check what is the given emoji :emoji: or <:emoji:123456789123456>
+                                    //TODO: Rectification, check if the emoji is part of the server or not
+
+                                    //react to the message with the emoji provided
+                                    msg.react(emoji).then(rea => {
+                                        let messageFromRea = rea.message;
+                                        //edit the message witch the content created from dataManagement
+                                        messageFromRea.edit(createText(messageId, dataManagement)).then(() => {
+                                            //edit the file to save the changes
+                                            fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
+                                                if (err) {
+                                                    return interaction.reply("An unexpected error happened, blame the dev")
+                                                } else {
+                                                    console.log('data Updated');
+                                                    return interaction.reply("The role " + interaction.options.getRole('role').name + " has been added to the message");
+                                                }
+                                            })
+                                        });
+                                    }, err => {
+                                        console.log(err);
+                                        console.log('this emoji does not exist');
+                                        return interaction.reply('This emoji does not exist');
+                                    })
+                                }, (error) => {
+                                    console.log(error);
+                                    return interaction.reply("The message from this id does not exist");
+                                })
+                            } else
+                                return interaction.reply("The message from this id does not exist in the database");
                         } else
-                            return interaction.reply("The message from this id does not exist in the database");
+                            return interaction.reply("You can't add @everyone as a role");
                     } else
                         return interaction.reply("No messages has been set");
                     break;
 
                 case 'remove_role' :
+                    //if the guild does not exist in the database this command will not be executed
                     if (guildIdIsSet) {
+
+                        //check if the id provided correspond to a message in the database
                         if (dataManagement[guildId]["reactMessages"].hasOwnProperty(messageId)) {
                             let channelId = dataManagement[guildId]["reactMessages"][messageId]["channel"];
                             let role_to_delete = interaction.options.getRole("role_delete");
+                            console.log()
+
+                            //retrieve the role the user wants to delete
                             let role = dataManagement[guildId]["reactMessages"][messageId]["roles"].filter((role) =>
                                 role["role"] === role_to_delete.id
                             )[0]
+                            console.log(role);
 
+                            //Create a list of the roles that will not be deleted. if you know a better way to do this, go for it!
                             let roles_to_keep = dataManagement[guildId]["reactMessages"][messageId]["roles"].filter((role) =>
                                 role["role"] !== role_to_delete.id
                             )
                             console.log(roles_to_keep);
 
-                            const index = dataManagement[guildId]["reactMessages"][messageId]["roles"].findIndex(e => {
-
-                                    return e === role;
-                                }
-                            )
-
                             let emoji = role["emoji"];
 
+                            //I fetch the message from the cache of the channel
                             client.channels.cache.get(channelId).messages.fetch(messageId).then(msg => {
                                 let reaction = msg.reactions.resolve(emoji);
                                 if (reaction !== null) {
+                                    //I find the reactions and remove them from the message
                                     msg.reactions.resolve(emoji).remove().then((reac) => {
+                                        //I replace the old roles with the roles I want to keep
                                         dataManagement[guildId]["reactMessages"][messageId]["roles"] = roles_to_keep;
                                         let messageFromRea = reac.message;
+                                        //I edit the content of the message thanks to create message, I pass the messageid, guildid and the data from which to build the content
                                         messageFromRea.edit(createText(messageId, dataManagement)).then(() => {
                                             fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
                                                 if (err) {
@@ -226,11 +262,9 @@ module.exports = {
                                         return interaction.reply("An error occurred, the reaction is already gone, maybe");
                                     });
                                 } else {
-                                    console.log(index);
-                                    console.log(dataManagement[guildId]["reactMessages"][messageId]["roles"][index]);
                                     dataManagement[guildId]["reactMessages"][messageId]["roles"] = roles_to_keep;
                                     client.channels.cache.get(channelId).messages.fetch(messageId).then(msg => {
-                                        msg.edit(createText(messageId));
+                                        msg.edit(createText(messageId, dataManagement));
                                     });
                                     fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
                                         if (err) {
@@ -241,18 +275,24 @@ module.exports = {
                                     });
                                 }
                             })
-                        } else return interaction.reply("The message from this id does not exist in the database");
-                    } else return interaction.reply("No messages has been set");
+                        } else
+                            return interaction.reply("The message from this id does not exist in the database");
+                    } else
+                        return interaction.reply("No messages has been set");
                     break;
 
 
                 case 'delete_message' :
 
+                    //if the guild does not exist in the database this command will not be executed
                     if (guildIdIsSet) {
+
+                        //check if the id provided correspond to a message in the database
                         if (dataManagement[guildId]["reactMessages"].hasOwnProperty(messageId)) {
 
                             const channelId = dataManagement[guildId]["reactMessages"][messageId]["channel"];
 
+                            //fetch the message from the cache of the channel
                             client.channels.cache.get(channelId).messages.fetch(messageId)
                                 .then(msg =>
                                     msg.delete())
@@ -265,6 +305,7 @@ module.exports = {
 
                             delete dataManagement[guildId]["reactMessages"][messageId]
 
+                            //edit the file to save the changes
                             fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
                                 if (err) {
                                     return interaction.reply("An unexpected error happened, blame the dev")
