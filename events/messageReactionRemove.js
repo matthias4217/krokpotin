@@ -20,10 +20,15 @@ module.exports = {
                 let emoji = reaction.emoji.name;
                 //check if reaction is a managed reaction
                 for (let role in roles) {
-                    if (roles[role]["emoji"] === emoji) {
+                    let emojiMatch = /<:[^\s]+:[0-9]{18}>/
+                    let new_emoji = roles[role]["emoji"];
+                    if (roles[role]["emoji"].match(emojiMatch)){
+                        new_emoji = roles[role]["emoji"].split(":")[1];
+                    }
+                    if (new_emoji === emoji) {
                         guild.members.fetch(user.id).then(usr => {
-                            let role_to_add = guild.roles.cache.find(r => r.id === roles[role]["role"]);
-                            usr.roles.remove(role_to_add).catch(err => {
+                            let role_to_remove = guild.roles.cache.find(r => r.id === roles[role]["role"]);
+                            usr.roles.remove(role_to_remove).catch(err => {
                                 console.log("The role no longer exist, no big deal");
                             })
                         })

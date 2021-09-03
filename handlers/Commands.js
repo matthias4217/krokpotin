@@ -37,6 +37,7 @@ module.exports = (client) => {
         //check if the commands are a slash command, this is a bad practice but I don't know how to do it properly
         if (!(command.data === undefined))
         {
+
             client.commands.set(command.data.name, command);
         }
     }

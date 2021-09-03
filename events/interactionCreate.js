@@ -11,6 +11,7 @@ module.exports = {
             //if the called command does not exist, delete it from the list
             if (!command) return await interaction.followUp({content: 'This command no longer exists does not exist'}) && client.commands.delete(interaction.commandName);
             //call the command
+            console.log(command["data"]["name"]);
             command.execute(client, interaction);
         }
     },
