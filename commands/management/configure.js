@@ -1,6 +1,7 @@
 const {SlashCommandBuilder} = require("@discordjs/builders");
 const fs = require("fs");
 const dataManagement = require("../../data/dataManagement.json");
+const passwordHash = require('password-hash');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -73,7 +74,7 @@ module.exports = {
                             return interaction.reply("Your password can't be an empty string")
                         }
 
-                        dataManagement[guildId]["password"] = password;
+                        dataManagement[guildId]["password"] = passwordHash.generate(password);
 
                         fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
                             if (err) {

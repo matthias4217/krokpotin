@@ -25,6 +25,7 @@
     "discord.js": "13.*",
     "discord.js-minesweeper": "^1.0.6",
     "dotenv": "8.2.0",
+    "password-hash": "^1.2.2",
     "ws": "6.2.1"
   },
   "devDependencies": {

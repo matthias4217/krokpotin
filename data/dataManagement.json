@@ -31,7 +31,7 @@
     "reactMessages": {}
   },
   "882624237708394497": {
-    "password": "slip",
+    "password": "sha1$0760ab3d$1$8c706c04f4c2d785154f6d9545eef70caaf69f8a",
     "managers": [
       "882631266732744774"
     ],
