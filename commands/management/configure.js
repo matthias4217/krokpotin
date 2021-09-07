@@ -1,6 +1,5 @@
 const {SlashCommandBuilder} = require("@discordjs/builders");
 const fs = require("fs");
-const dataManagement = require("../../data/dataManagement.json");
 const passwordHash = require('password-hash');
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
         .setDescription('Configure the following parameters')
         .addSubcommandGroup(password =>
             password.setName('password')
-                .setDescription('change the password (not implemented yet)')
+                .setDescription('change the password')
                 .addSubcommand(create =>
                     create.setName("set")
                         .setDescription("Set a password for the server that will be used for new member to verify themselves")

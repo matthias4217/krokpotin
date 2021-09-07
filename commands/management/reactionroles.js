@@ -142,6 +142,8 @@ module.exports = {
                 let channel = interaction.options.getChannel('channel');
 
                 //send a message to the desired channel
+
+                //Error Channel.send is not a function
                 const messageSent = await channel.send("This message waits for you to configure it, type `/reactionroles add [role] [emoji]` to add roles");
 
                 //create the entry in the database
@@ -193,12 +195,6 @@ module.exports = {
                                 }
                             }
 
-                            //add the role to dataManagement[guildId]["reactMessages"][messageId]["roles"]
-                            roles.push({
-                                "role": roleToAdd.id,
-                                "emoji": interaction.options.getString('emoji'),
-                                "order": 0
-                            })
 
                             //fetch the message from the cache of the channel
                             client.channels.cache.get(channelId).messages.fetch(messageId).then(msg => {
@@ -206,8 +202,19 @@ module.exports = {
                                 //react to the message with the emoji provided
                                 msg.react(emoji).then(rea => {
                                     let messageFromRea = rea.message;
+
+                                    roles.push({
+                                        "role": roleToAdd.id,
+                                        "emoji": interaction.options.getString('emoji'),
+                                        "order": 0
+                                    })
+
                                     //edit the message witch the content created from dataManagement
                                     messageFromRea.edit(createText(messageId, dataManagement)).then(() => {
+
+                                        //add the role to dataManagement[guildId]["reactMessages"][messageId]["roles"]
+
+
                                         //edit the file to save the changes
                                         fs.writeFile('./data/dataManagement.json', JSON.stringify(dataManagement), (err) => {
                                             if (err) {

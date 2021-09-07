@@ -40,6 +40,14 @@ module.exports = {
         let subCommand = interaction.options.getSubcommand();
         switch (subCommand) {
             case "add" :
+
+                if (!interaction.member.permissions.has('ADMINISTRATOR')) {
+                    return interaction.reply({
+                        content: "Only administrators can call this command",
+                        ephemeral: 'true'
+                    })
+                }
+
                 if (!checkGuildId()) {
                     dataManagement[guildId] =
                         {
@@ -70,6 +78,14 @@ module.exports = {
                 break;
 
             case "remove" :
+
+                if (!interaction.member.permissions.has('ADMINISTRATOR')) {
+                    return interaction.reply({
+                        content: "Only administrators can call this command",
+                        ephemeral: 'true'
+                    })
+                }
+
                 if (!checkGuildId()) {
                     return interaction.reply("No data has been set for this guild");
                 }
